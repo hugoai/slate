@@ -4,6 +4,14 @@ This document maintains a list of changes to the `slate-react` package with each
 
 ---
 
+### `0.19.0` — December 13, 2019
+
+###### BREAKING
+
+**The `plugin.renderMark` function was renamed to `plugin.renderMarks`.** This way we can add all marks into a single `span` tag instead of having nested tags.
+
+---
+
 ### `0.18.0` — August 22, 2018
 
 ###### BREAKING
