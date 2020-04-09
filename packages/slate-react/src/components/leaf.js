@@ -103,10 +103,9 @@ class Leaf extends React.Component {
       'data-slate-leaf': true,
     }
 
-    return marks.reduce((children, mark) => {
+    return stack.getPluginsWith('renderMarks').reduce((children, plugin) => {
       const props = {
         editor,
-        mark,
         marks,
         node,
         offset,
@@ -114,7 +113,7 @@ class Leaf extends React.Component {
         children,
         attributes,
       }
-      const element = stack.find('renderMark', props)
+      const element = plugin.renderMarks(props)
       return element || children
     }, leaf)
   }
