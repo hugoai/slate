@@ -107,7 +107,7 @@ class Content extends React.Component {
 
     this.updateSelection()
 
-    if (autoFocus || true) {
+    if (autoFocus) {
       editor.focus()
     }
   }
