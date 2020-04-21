@@ -421,6 +421,8 @@ class Text extends Record(DEFAULTS) {
     if (!marks) marks = Set()
 
     const { startOffset, leaf, index } = this.searchLeafAtOffset(offset)
+    if (!leaf) return this
+
     const delta = offset - startOffset
     const beforeText = leaf.text.slice(0, delta)
     const afterText = leaf.text.slice(delta)
