@@ -39,6 +39,7 @@ class Content extends React.Component {
 
   static propTypes = {
     autoCorrect: Types.bool.isRequired,
+    autoFocus: Types.bool,
     className: Types.string,
     editor: Types.object.isRequired,
     readOnly: Types.bool.isRequired,
@@ -56,6 +57,7 @@ class Content extends React.Component {
    */
 
   static defaultProps = {
+    autoFocus: false,
     style: {},
     tagName: 'div',
   }
@@ -89,6 +91,7 @@ class Content extends React.Component {
    */
 
   componentDidMount() {
+    const { editor, autoFocus } = this.props
     const window = getWindow(this.element)
 
     window.document.addEventListener(
@@ -104,7 +107,9 @@ class Content extends React.Component {
 
     this.updateSelection()
 
-    this.onEvent('onComponentDidMount', { target: this.ref.current })
+    if (autoFocus) {
+      editor.focus()
+    }
   }
 
   /**
