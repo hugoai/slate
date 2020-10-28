@@ -238,8 +238,12 @@ class Content extends React.Component {
       native.addRange(range)
     }
 
+    /* We don't need to use slate scroll to selection feature as it's not working properly
+     * and we have our own implementation of it
+     * commenting it to avoid unnecessary calculations */
+
     // Scroll to the selection, in case it's out of view.
-    scrollToSelection(native)
+    // scrollToSelection(native)
 
     // Then unset the `isUpdatingSelection` flag after a delay.
     setTimeout(() => {
