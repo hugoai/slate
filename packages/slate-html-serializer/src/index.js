@@ -126,7 +126,7 @@ class Html {
     const { defaultBlock, parseHtml } = this
     const fragment = parseHtml(html)
     const children = Array.from(fragment.childNodes)
-    let nodes = this.deserializeElements(children)
+    let nodes = this.deserializeElements(children, options)
 
     // COMPAT: ensure that all top-level inline nodes are wrapped into a block.
     nodes = nodes.reduce((memo, node, i, original) => {
@@ -195,11 +195,11 @@ class Html {
    * @return {Array}
    */
 
-  deserializeElements = (elements = []) => {
+  deserializeElements = (elements = [], options) => {
     let nodes = []
 
     elements.filter(this.cruftNewline).forEach(element => {
-      const node = this.deserializeElement(element)
+      const node = this.deserializeElement(element, options)
 
       switch (typeOf(node)) {
         case 'array':
@@ -221,7 +221,7 @@ class Html {
    * @return {Any}
    */
 
-  deserializeElement = element => {
+  deserializeElement = (element, options) => {
     let node
 
     if (!element.tagName) {
@@ -235,9 +235,9 @@ class Html {
 
       switch (typeOf(elements)) {
         case 'array':
-          return this.deserializeElements(elements)
+          return this.deserializeElements(elements, options)
         case 'object':
-          return this.deserializeElement(elements)
+          return this.deserializeElement(elements, options)
         case 'null':
         case 'undefined':
           return
@@ -250,7 +250,7 @@ class Html {
 
     for (const rule of this.rules) {
       if (!rule.deserialize) continue
-      const ret = rule.deserialize(element, next)
+      const ret = rule.deserialize(element, next, options)
       const type = typeOf(ret)
 
       if (
