@@ -139,7 +139,7 @@ class Text extends React.Component {
     })
 
     return (
-      <span data-key={key} style={style}>
+      <span data-slate-node="text" data-key={key} style={style}>
         {children}
       </span>
     )

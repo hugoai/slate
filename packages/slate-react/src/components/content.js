@@ -450,6 +450,7 @@ class Content extends React.Component {
       <Container
         {...handlers}
         data-slate-editor
+        data-slate-node="value"
         ref={this.ref}
         data-key={document.key}
         contentEditable={readOnly ? null : true}
@@ -460,10 +461,6 @@ class Content extends React.Component {
         style={style}
         role={readOnly ? null : role || 'textbox'}
         tabIndex={tabIndex}
-        // COMPAT: The Grammarly Chrome extension works by changing the DOM out
-        // from under `contenteditable` elements, which leads to weird behaviors
-        // so we have to disable it like this. (2017/04/24)
-        data-gramm={false}
       >
         {children}
       </Container>
