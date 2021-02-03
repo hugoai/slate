@@ -1,7 +1,7 @@
 import Base64 from 'slate-base64-serializer'
 import Debug from 'debug'
 import Plain from 'slate-plain-serializer'
-import { IS_IOS } from 'slate-dev-environment'
+import { IS_SAFARI, IS_IOS } from 'slate-dev-environment'
 import React from 'react'
 import getWindow from 'get-window'
 import { Text } from 'slate'
@@ -129,6 +129,20 @@ function AfterPlugin() {
 
         if (text == null) return
 
+        // A hack to work around an issue with this version of Slate + Grammarly in Safari.
+        // Without this change, Grammarly replacements are performed at the current cursor
+        // position, as opposed to be at the actual previous text position (expected behavior).
+        // The reason seems to be that, in other browsers, Grammarly changes trigger a selection
+        // to cover the text to be replaced, which doesn't happen in Safari. This change does that
+        // for us.
+        if (IS_SAFARI) {
+          const dummyError = new Error();
+          const stack = dummyError.stack || '';
+          const changeFromGrammarly = stack.toLowerCase().includes('grammarly.js');
+          if (changeFromGrammarly) {
+            change.select(range);
+          }
+        }
         change.insertTextAtRange(range, text, selection.marks)
 
         // If the text was successfully inserted, and the selection had marks
